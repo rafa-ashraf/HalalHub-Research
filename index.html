@@ -1,2 +1,167 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HalalHub Research</title><style>body{font-family:Inter,system-ui,sans-serif;background:#0b1020;color:#eef2ff;max-width:1100px;margin:auto;padding:48px 24px;line-height:1.6}h1{font-size:48px;margin-bottom:8px}h2{margin-top:48px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.card{background:#151c32;border:1px solid #293452;border-radius:16px;padding:20px}.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.step{background:#19233d;border-radius:12px;padding:12px 16px}.muted{color:#aeb9d4}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#223052;color:#bcd0ff;font-size:13px}</style></head><body><span class="pill">HalalHub · Research Artifact</span><h1>Product Data, Matching & Image Strategy</h1><p class="muted">A concise visual review of the HalalHub research: the problem, architecture, industry lessons, matching strategy, image governance, AI/data sources, risks, costs and roadmap.</p><h2>60-second summary</h2><div class="grid"><div class="card"><b>Central catalog</b><p>Build a canonical product layer shared across merchants.</p></div><div class="card"><b>Identity first</b><p>Use GTIN/UPC as the strongest deterministic identifier, then metadata and AI-assisted matching.</p></div><div class="card"><b>Images as assets</b><p>Prioritize trusted catalog/manufacturer imagery and govern provenance and quality.</p></div><div class="card"><b>Selective AI</b><p>Use AI for ambiguous matching, enhancement and background cleanup rather than as the source of truth.</p></div></div><h2>Architecture</h2><div class="flow"><div class="step">Merchant feeds</div><b>→</b><div class="step">Normalization</div><b>→</b><div class="step">Canonical catalog</div><b>→</b><div class="step">Matching + confidence</div><b>→</b><div class="step">Image pipeline</div><b>→</b><div class="step">Merchant / customer surfaces</div></div><h2>Industry lessons</h2><div class="grid"><div class="card"><b>Amazon</b><p>Centralized catalog concepts, strong identifiers and structured product data.</p></div><div class="card"><b>Walmart</b><p>Standardized product content and image requirements at scale.</p></div><div class="card"><b>Instacart</b><p>Universal catalog separated from retailer-specific item information.</p></div><div class="card"><b>Shopify</b><p>Structured product data and merchant-controlled catalog workflows.</p></div><div class="card"><b>Google Shopping</b><p>Identifier-driven feeds, standardized attributes and image requirements.</p></div><div class="card"><b>Target</b><p>Consistent retail product presentation and structured catalog content.</p></div></div><h2>Product matching</h2><div class="flow"><div class="step">GTIN / UPC</div><b>→</b><div class="step">Metadata</div><b>→</b><div class="step">Fuzzy / semantic</div><b>→</b><div class="step">Image similarity</div><b>→</b><div class="step">Confidence score</div><b>→</b><div class="step">Human review when needed</div></div><p class="muted">The research proposes a hybrid deterministic + AI approach, with confidence and explainability rather than relying on a single model.</p><h2>Image governance</h2><div class="grid"><div class="card"><b>1 · Trusted catalog</b><p>Preferred when available.</p></div><div class="card"><b>2 · Manufacturer / brand</b><p>High-confidence source.</p></div><div class="card"><b>3 · Licensed provider</b><p>Use where rights and quality are clear.</p></div><div class="card"><b>4 · Merchant</b><p>Useful fallback with validation.</p></div><div class="card"><b>5 · AI enhancement</b><p>Improve existing assets; don't replace truth with invented product imagery.</p></div><div class="card"><b>6 · Human review</b><p>Escalation for uncertain cases.</p></div></div><h2>AI, APIs & cost strategy</h2><p>Use Open Food Facts, GS1, Google Shopping and commercial/manufacturer sources where appropriate. Keep image processing asynchronous, use object storage/CDN, and stage external-data and AI costs rather than applying expensive processing to every item.</p><h2>Risks → controls</h2><div class="grid"><div class="card"><b>Incorrect matching</b><p>Confidence thresholds + human review.</p></div><div class="card"><b>AI-generated errors</b><p>Use AI selectively and preserve source provenance.</p></div><div class="card"><b>Copyright / licensing</b><p>Track source and usage rights.</p></div><div class="card"><b>Scalability</b><p>Async pipelines, caching and external image storage.</p></div></div><h2>Roadmap</h2><div class="grid"><div class="card"><b>01</b><p>Foundation + canonical catalog</p></div><div class="card"><b>02</b><p>Product matching</p></div><div class="card"><b>03</b><p>Image governance + pipeline</p></div><div class="card"><b>04</b><p>AI-assisted enrichment</p></div><div class="card"><b>05</b><p>Scale + optimization</p></div><div class="card"><b>06</b><p>Advanced intelligence</p></div></div><p class="muted" style="margin-top:56px">Source: HalalHub Research Document. This page is a concise review layer; the underlying research document remains the detailed reference.</p></body></html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HalalHub — Product Catalog & Image Research</title>
+<style>
+:root{--bg:#08101d;--panel:#101b2d;--panel2:#14233a;--line:#263957;--text:#edf4ff;--muted:#aab9d2;--accent:#77a8ff;--good:#75d6b1;--warn:#f0c674}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#08101d,#0b1423 45%,#08101d);color:var(--text);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--accent)}.wrap{max-width:1180px;margin:auto;padding:28px 22px 80px}.nav{position:sticky;top:0;z-index:10;background:#08101de8;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin:0 -22px;padding:12px 22px}.nav a{margin-right:18px;text-decoration:none;font-size:13px}.hero{padding:64px 0 42px}.eyebrow{display:inline-block;padding:5px 10px;border:1px solid #315184;border-radius:999px;color:#bcd3ff;background:#10213a;font-size:12px}.hero h1{font-size:clamp(36px,6vw,64px);line-height:1.02;letter-spacing:-2px;margin:18px 0 14px}.hero p{max-width:850px;color:var(--muted);font-size:18px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:linear-gradient(180deg,#111e31,#0e192a);border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{margin:0 0 7px}.card p{margin:7px 0;color:var(--muted)}.metric{font-size:30px;font-weight:800}.section{padding:38px 0;border-top:1px solid #1d2b42}.section h2{font-size:30px;margin:0 0 8px}.lead{color:var(--muted);max-width:850px}.tag{font-size:11px;color:#c5d8ff;text-transform:uppercase;letter-spacing:.12em}.diagram{background:#0a1423;border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:18px;overflow:auto}.flow{display:flex;align-items:stretch;gap:8px;min-width:760px}.node{background:#142541;border:1px solid #315184;border-radius:12px;padding:14px;min-width:145px}.node b{display:block}.arrow{align-self:center;color:var(--accent);font-size:24px}.stack{display:grid;gap:8px}.row{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid #1d2b42}.row:last-child{border-bottom:0}.label{font-weight:700}.source{font-size:12px;color:#91a5c4}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.table th{color:#c9d8ef;background:#0d1929}.callout{border-left:3px solid var(--accent);background:#0d1a2d;padding:15px 18px;border-radius:0 12px 12px 0;margin:16px 0}.good{border-color:#2c715f}.warn{border-color:#765f2d}.small{font-size:13px}.muted{color:var(--muted)}details{background:#0c1727;border:1px solid var(--line);border-radius:14px;padding:15px 18px}summary{cursor:pointer;font-weight:700}.foot{padding-top:35px;color:#8395b2;font-size:12px}
+@media(max-width:800px){.grid,.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.hero{padding-top:38px}.nav{overflow:auto;white-space:nowrap}.wrap{padding-left:16px;padding-right:16px}}
+</style></head>
+<body><div class="wrap">
+<nav class="nav"><a href="#summary">Summary</a><a href="#evidence">Research evidence</a><a href="#architecture">Architecture</a><a href="#matching">Matching</a><a href="#images">Images</a><a href="#ai">AI & cost</a><a href="#risks">Risks</a><a href="#roadmap">Roadmap</a></nav>
+
+<header class="hero" id="summary">
+<span class="eyebrow">HALALHUB · RESEARCH REVIEW ARTIFACT</span>
+<h1>Product Catalog & Image Service</h1>
+<p>This is the concise review layer for the underlying research document. It preserves the research logic, evidence, technical trade-offs and original decision diagrams so a senior reviewer can judge <b>what was investigated, what was found, what is documented vs inferred, and how the findings translate into a proposed HalalHub architecture.</b></p>
+<div class="grid" style="margin-top:25px">
+<div class="card"><div class="metric">6</div><div class="muted">industry platforms examined</div></div>
+<div class="card"><div class="metric">5</div><div class="muted">matching layers from deterministic → AI</div></div>
+<div class="card"><div class="metric">6</div><div class="muted">implementation phases</div></div>
+</div>
+</header>
+
+<section class="section">
+<h2>1. Executive conclusion</h2>
+<p class="lead">The research points to a consistent architectural pattern across multi-merchant commerce systems: separate the canonical product from merchant-specific offers, use standardized identifiers as the strongest identity signal, govern images as catalog assets, and use automation/AI as supporting layers rather than the source of truth.</p>
+<div class="grid2">
+<div class="card"><h3>What the research supports</h3><p>GTIN/UPC is the highest-confidence identifier where reliable. Missing identifiers require normalized metadata, fuzzy/semantic matching and eventually image similarity. Merchant images are useful inputs but should not automatically become canonical assets.</p></div>
+<div class="card"><h3>What remains an engineering decision</h3><p>Exact scoring thresholds, provider contracts, storage/CDN choice, AI vendors, review thresholds and implementation sequencing should be validated against HalalHub's actual data volume, merchant feeds and budget.</p></div>
+</div>
+<div class="callout"><b>Important research discipline:</b> the source document explicitly distinguishes publicly documented platform functionality from internal algorithms that are proprietary or not publicly confirmed. The artifact keeps that distinction rather than presenting inferred internals as fact.</div>
+</section>
+
+<section class="section" id="evidence">
+<h2>2. Industry research — what was actually examined</h2>
+<p class="lead">Each platform was considered against the same dimensions: catalog/business model, product identification, image sources and governance, APIs/data integration, automation/AI, and relevance to HalalHub.</p>
+<table class="table"><thead><tr><th>Platform</th><th>Documented model / finding</th><th>Implication for HalalHub</th></tr></thead><tbody>
+<tr><td><b>Amazon</b></td><td>Central catalog concepts; ASIN plus identifiers such as UPC/EAN/ISBN and manufacturer information; Catalog Items API exposes identifiers, attributes, images and variations.</td><td>Separate canonical product identity from seller-specific offer data.</td></tr>
+<tr><td><b>Walmart</b></td><td>Centralized/controlled product content, duplicate and variant handling, image requirements and publication validation.</td><td>Govern duplicates, variants, image state and quality before publication.</td></tr>
+<tr><td><b>Instacart</b></td><td>Universal Catalog at UPC level; explicitly separates products from retailer-specific items such as price and availability; supports shared product attributes and retailer overrides.</td><td>Strongest direct grocery analogue: canonical Product + merchant/store Item.</td></tr>
+<tr><td><b>Shopify</b></td><td>Merchant-owned catalog model with product IDs, SKUs, barcodes and variants rather than one global shared catalog.</td><td>Shows the trade-off of decentralized ownership; HalalHub needs a shared layer because merchants overlap.</td></tr>
+<tr><td><b>Google Shopping</b></td><td>Standardized identifiers and attributes; GTIN, brand and MPN help product understanding; main and additional image links are explicit concepts.</td><td>Identity, offer, image and attributes should be modeled separately.</td></tr>
+<tr><td><b>Target</b></td><td>Tightly governed retail/marketplace catalog; internal matching details are not fully public.</td><td>Use controlled publication and acknowledge limits of public evidence.</td></tr>
+</tbody></table>
+<div class="callout"><b>Cross-platform finding:</b> the document groups Amazon, Walmart and Instacart as centralized/shared catalog examples; Shopify as merchant-owned; Google as a product-indexing/aggregation example; and Target as a highly governed retail/marketplace model.</div>
+<div class="grid" style="margin-top:16px">
+<div class="card"><h3>Finding 01</h3><p>Canonical product ≠ merchant inventory.</p></div>
+<div class="card"><h3>Finding 02</h3><p>GTIN/UPC is a high-confidence identity signal.</p></div>
+<div class="card"><h3>Finding 03</h3><p>Merchant images should be candidates, not automatic canon.</p></div>
+<div class="card"><h3>Finding 04</h3><p>Image quality needs systematic validation.</p></div>
+<div class="card"><h3>Finding 05</h3><p>Multiple image roles are more useful than one image.</p></div>
+<div class="card"><h3>Finding 06</h3><p>AI and human review complement deterministic systems.</p></div>
+</div>
+</section>
+
+<section class="section" id="architecture">
+<h2>3. Proposed catalog architecture</h2>
+<p class="lead">The most important design decision is to stop treating a merchant's listing as the canonical product. A shared catalog product holds stable product facts; merchant records hold store-specific facts.</p>
+<div class="diagram"><div class="flow">
+<div class="node"><b>Merchant A</b><span class="muted">SKU · price · inventory · store</span></div><div class="arrow">→</div>
+<div class="node"><b>Normalize</b><span class="muted">units · names · brands · categories</span></div><div class="arrow">→</div>
+<div class="node"><b>Canonical Product</b><span class="muted">GTIN · brand · name · size · images</span></div><div class="arrow">←</div>
+<div class="node"><b>Merchant B</b><span class="muted">SKU · price · inventory · store</span></div>
+</div></div>
+<div class="grid2" style="margin-top:16px">
+<div class="card"><h3>Catalog Product</h3><p>Brand, product name, GTIN, category, package size, canonical metadata, approved images, provenance and confidence.</p></div>
+<div class="card"><h3>Merchant Product / Item</h3><p>Merchant, merchant SKU, price, inventory, store, availability and the linked Catalog Product ID.</p></div>
+</div>
+</section>
+
+<section class="section" id="matching">
+<h2>4. Product identification & matching</h2>
+<p class="lead">The research recommends an identifier-first hierarchy. AI should help resolve ambiguity rather than override strong deterministic identity.</p>
+<div class="diagram"><div class="stack">
+<div class="node"><b>1 · GTIN / UPC exact match</b><span class="muted">Highest-confidence path when verified.</span></div>
+<div class="node"><b>2 · Metadata matching</b><span class="muted">MPN, brand, normalized name, product type, size, weight/volume, flavor/variant, package quantity.</span></div>
+<div class="node"><b>3 · Fuzzy / semantic matching</b><span class="muted">Token similarity, Levenshtein/Jaro-Winkler, n-grams, cosine/TF-IDF and text embeddings.</span></div>
+<div class="node"><b>4 · Image similarity</b><span class="muted">Image embeddings → similarity search → candidate products.</span></div>
+<div class="node"><b>5 · Confidence + review</b><span class="muted">High confidence → auto-match; medium → review; low → new/candidate product.</span></div>
+</div></div>
+<h3 style="margin-top:24px">Why normalization matters</h3>
+<div class="grid2"><div class="card"><p><b>Merchant A:</b> Astro Original Balkan Yogurt · 750 g</p><p><b>Merchant B:</b> Astro Original Balkan Style Yogurt · 0.75 kg</p><p class="muted">Normalize to a shared representation before comparing.</p></div><div class="card"><p><b>Near-match trap:</b> Coca-Cola 355 mL vs Coca-Cola 1.5 L</p><p class="muted">Similar names do not imply identical products; package quantity and volume matter.</p></div></div>
+<h3 style="margin-top:24px">Proposed confidence model</h3>
+<p class="lead">The source document illustrates an explainable score using contributions such as GTIN, brand, name similarity, size, category and image similarity. It also gives preliminary relative weighting in the matching discussion: GTIN/UPC and MPN very high; brand/product type/package size/weight-volume/flavor high; name medium-high; category medium; merchant SKU low for cross-merchant matching.</p>
+<div class="callout"><b>Key safety valve:</b> fuzzy matching should generate candidates; it should not automatically merge products without confidence and, for ambiguous cases, human review.</div>
+</section>
+
+<section class="section" id="images">
+<h2>5. Image strategy & original source diagrams</h2>
+<p class="lead">Images are modeled as first-class catalog assets with roles, approval state, source type and provenance. The research favors transforming real product imagery over inventing authoritative packaging imagery.</p>
+<div class="diagram"><div class="flow">
+<div class="node"><b>1 · Trusted catalog</b><span class="muted">preferred source</span></div><div class="arrow">→</div>
+<div class="node"><b>2 · Manufacturer / brand</b><span class="muted">authoritative source</span></div><div class="arrow">→</div>
+<div class="node"><b>3 · Licensed provider</b><span class="muted">rights verified</span></div><div class="arrow">→</div>
+<div class="node"><b>4 · Merchant image</b><span class="muted">validate first</span></div><div class="arrow">→</div>
+<div class="node"><b>5 · AI enhancement</b><span class="muted">preserve original</span></div><div class="arrow">→</div>
+<div class="node"><b>6 · Human review</b><span class="muted">uncertain cases</span></div>
+</div></div>
+<div class="diagram"><h3>Merchant image → canonical asset</h3><div class="flow"><div class="node"><b>Merchant upload</b></div><div class="arrow">→</div><div class="node"><b>Validation</b><span class="muted">quality / format / dimensions</span></div><div class="arrow">→</div><div class="node"><b>Quality score</b></div><div class="arrow">→</div><div class="node"><b>Product match</b></div><div class="arrow">→</div><div class="node"><b>Review / approval</b></div><div class="arrow">→</div><div class="node"><b>Canonical image</b></div></div></div>
+<div class="grid2" style="margin-top:16px">
+<div class="card"><h3>Image roles</h3><p>Primary · secondary · back · side · lifestyle. Each image should carry role and approval status.</p></div>
+<div class="card"><h3>Quality standard</h3><p>Clean background, high resolution, correct product/variant, useful framing, multiple views where appropriate, optimized delivery, no misleading overlays.</p></div>
+</div>
+<div class="callout warn"><b>AI generation boundary:</b> background removal and enhancement are lower-risk because the real product remains the source. Fully generating a packaged grocery product can introduce incorrect text, ingredients, branding, colors or package size, so it should not be the initial canonical-image strategy.</div>
+</section>
+
+<section class="section" id="ai">
+<h2>6. Data sources, AI, infrastructure & cost</h2>
+<div class="grid">
+<div class="card"><h3>Open Food Facts</h3><p>Useful food-focused source with names, brands, categories, ingredients, nutrition, barcodes and images; quality can vary because data is community contributed.</p></div>
+<div class="card"><h3>GS1</h3><p>Strong foundation for deterministic product identity through GTIN; a GTIN itself does not automatically provide an image or redistribution rights.</p></div>
+<div class="card"><h3>Google Shopping</h3><p>Useful reference for structured identifiers, merchant/product separation and explicit main/additional image concepts.</p></div>
+<div class="card"><h3>Commercial providers</h3><p>Syndigo, 1WorldSync, NielsenIQ and similar providers may offer scale and quality; licensing, coverage, freshness and redistribution rights must be evaluated.</p></div>
+<div class="card"><h3>Manufacturer catalogs</h3><p>Potentially authoritative for GTIN, brand, package size, images, ingredients and nutrition; ingestion may require API, CSV, XML, SFTP, EDI or portals.</p></div>
+<div class="card"><h3>AI layer</h3><p>Background removal, enhancement, OCR, embeddings, image similarity, duplicate detection and quality scoring; use selectively.</p></div>
+</div>
+<div class="diagram"><h3>Infrastructure pattern</h3><div class="flow"><div class="node"><b>Rails API</b></div><div class="arrow">→</div><div class="node"><b>PostgreSQL</b><span class="muted">metadata + relationships</span></div><div class="arrow">→</div><div class="node"><b>Background jobs</b><span class="muted">Sidekiq</span></div><div class="arrow">→</div><div class="node"><b>Object storage</b><span class="muted">originals + derivatives</span></div><div class="arrow">→</div><div class="node"><b>CDN</b><span class="muted">optimized delivery</span></div></div></div>
+<div class="callout good"><b>Scale example from the research:</b> 1,000,000 products × 3 approved images = 3,000,000 images. At an illustrative 1 MB master image average, that is about 3 TB before derivatives, backups, replicas and metadata. This supports keeping image binaries outside PostgreSQL.</div>
+<div class="card"><h3>Cost strategy</h3><p>Start with basic validation and deterministic matching; add image processing and external data selectively; introduce AI only where it provides measurable value. The research emphasizes avoiding expensive AI processing on every image unnecessarily.</p></div>
+</section>
+
+<section class="section" id="risks">
+<h2>7. Risks, trade-offs & controls</h2>
+<table class="table"><thead><tr><th>Risk</th><th>Why it matters</th><th>Research-supported control</th></tr></thead><tbody>
+<tr><td>Incorrect product matching</td><td>Can contaminate the canonical catalog and show the wrong product.</td><td>Identifier-first matching, normalization, confidence thresholds and human review.</td></tr>
+<tr><td>Incorrect AI generation</td><td>Generated packaging can look plausible while being factually wrong.</td><td>Prefer AI enhancement; preserve source; distinguish AI-generated assets through provenance.</td></tr>
+<tr><td>Copyright / licensing</td><td>API access does not automatically grant redistribution rights.</td><td>Track source and rights; verify download/store/modify/display/retention permissions.</td></tr>
+<tr><td>Data quality</td><td>External/community sources may be missing, stale or incorrect.</td><td>Use sources as candidates/enrichment unless authoritative; validate before canonicalization.</td></tr>
+<tr><td>Vendor lock-in</td><td>Managed image/AI/data providers add recurring dependency and cost.</td><td>Provider abstraction and portable asset/provenance model.</td></tr>
+<tr><td>Scalability</td><td>Millions of images increase storage, processing and bandwidth costs.</td><td>Async jobs, object storage, CDN, caching and staged processing.</td></tr>
+<tr><td>Human review cost</td><td>Ambiguous matches still need judgment.</td><td>Use confidence thresholds to route only uncertain cases to review.</td></tr>
+</tbody></table>
+</section>
+
+<section class="section" id="roadmap">
+<h2>8. Recommendations & roadmap</h2>
+<div class="grid">
+<div class="card"><span class="tag">Phase 1</span><h3>Core Catalog</h3><p>Catalog products, brands, identifiers, merchant products, aliases, basic search and barcode lookup.</p></div>
+<div class="card"><span class="tag">Phase 2</span><h3>Image Management</h3><p>Uploads, metadata, variants, approval, primary-image selection and object storage.</p></div>
+<div class="card"><span class="tag">Phase 3</span><h3>Matching Engine</h3><p>Exact GTIN, normalized text, brand, size, fuzzy matching and confidence scores.</p></div>
+<div class="card"><span class="tag">Phase 4</span><h3>Processing Pipeline</h3><p>Sidekiq, async processing, validation, resizing, optimization and duplicate detection.</p></div>
+<div class="card"><span class="tag">Phase 5</span><h3>AI</h3><p>Background removal, OCR, enhancement, embeddings, semantic matching and image similarity.</p></div>
+<div class="card"><span class="tag">Phase 6</span><h3>Advanced Intelligence</h3><p>Manufacturer integrations, commercial databases, automated enrichment, computer vision and intelligent review queues.</p></div>
+</div>
+<h3 style="margin-top:28px">Recommended initial stack</h3>
+<table class="table"><tbody>
+<tr><td><b>Backend</b></td><td>Ruby on Rails</td><td><b>Database</b></td><td>PostgreSQL</td></tr>
+<tr><td><b>Jobs</b></td><td>Sidekiq</td><td><b>Images</b></td><td>Active Storage + object storage</td></tr>
+<tr><td><b>API</b></td><td>REST + OpenAPI/Swagger</td><td><b>Search</b></td><td>PostgreSQL initially; pgvector when needed</td></tr>
+<tr><td><b>Processing</b></td><td>libvips preferred / ImageMagick alternative</td><td><b>AI</b></td><td>Provider abstraction layer</td></tr>
+<tr><td><b>Testing</b></td><td>RSpec</td><td><b>Delivery</b></td><td>CDN + containerized Rails</td></tr>
+</tbody></table>
+</section>
+
+<section class="section">
+<h2>9. What a senior reviewer should be able to judge</h2>
+<div class="grid2">
+<div class="card"><h3>Research coverage</h3><p>Six relevant industry models, identifiers, matching algorithms, image sources/standards, external data, AI techniques, infrastructure, cost, risks and implementation recommendations are represented here.</p></div>
+<div class="card"><h3>Evidence vs inference</h3><p>The source document flags where platform internals are proprietary and grounds recommendations in publicly documented functionality plus clearly stated engineering inference.</p></div>
+<div class="card"><h3>Technical reasoning</h3><p>The central chain is visible: identity → normalization → candidate matching → confidence → image governance → asynchronous processing → controlled publication.</p></div>
+<div class="card"><h3>Implementation readiness</h3><p>The research ends with a concrete data model boundary, image lifecycle, API shape, technology stack and six-phase roadmap rather than stopping at industry observations.</p></div>
+</div>
+<details style="margin-top:18px"><summary>Source document structure</summary><p class="muted">The underlying document contains the detailed sections: Problem Statement; Industry Research; Product Identification & Matching; Product Image Sources; Image Quality Standards; Existing APIs & Data Sources; AI Technologies; Cost Analysis; Risks & Trade-offs; Recommendations for HalalHub; and References.</p></details>
+</section>
+
+<footer class="foot">HalalHub Research · Concise visual review layer · Based on the supplied “Research Document - HalalHub” and its cited research. The full document remains the detailed source of record.</footer>
+</div></body></html>
